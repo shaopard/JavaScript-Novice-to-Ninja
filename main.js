@@ -18,11 +18,18 @@ const view = {
   question: document.getElementById('question'),
   result: document.getElementById('result'),
   info: document.getElementById('info'),
+  start: document.getElementById('start'),
   render(target, content, attributes) {
     for (const key in attributes) {
       target.setAttribute(key, attributes[key]);
     }
     target.innerHTML = content;
+  },
+  show(element) {
+    element.style.display = 'block';
+  },
+  hide(element) {
+    element.style.display = 'none';
   }
 };
 
@@ -38,6 +45,7 @@ const game = {
     }
     // end of main game loop
     this.gameOver();
+    view.hide(view.start);
   },
   ask() {
     const question = `What is ${this.question.name}'s real name?`;
@@ -63,7 +71,8 @@ const game = {
   },
   gameOver() {
     view.render(view.info, `Game Over, you scored ${this.score} point${this.score !== 1 ? 's' : ''}`);
+    view.show(view.start);
   }
 }
 
-game.start(quiz);
+view.start.addEventListener('click', () => game.start(quiz), false);
